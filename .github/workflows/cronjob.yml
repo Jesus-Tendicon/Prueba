@@ -18,12 +18,20 @@ jobs:
         with:
           python-version: '3.x'
 
-      - name: Instalar dependencias (si las hay)
-        run: |
-          pip install -r requirements.txt || echo "No hay dependencias"
+      - name: Listar archivos en el directorio
+        run: ls -la
 
       - name: Ejecutar el script
         run: python script.py
 
-      - name: Notificación de éxito
-        run: echo "El script se ejecutó correctamente."
+      - name: Enviar correo de notificación
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com          # Servidor SMTP (para Gmail)
+          server_port: 587                        # Puerto SMTP
+          username: ${{ secrets.EMAIL_USERNAME }} # Usuario del email (correo)
+          password: ${{ secrets.EMAIL_PASSWORD }} # Contraseña de aplicación
+          subject: "Notificación de GitHub Actions"
+          to: jesus.tendicon@gmail.com            # Correo del destinatario
+          from: ${{ secrets.EMAIL_USERNAME }}     # Correo del remitente
+          body: "El script se ejecutó correctamente en GitHub Actions."
