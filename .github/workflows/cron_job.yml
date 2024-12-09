@@ -1,0 +1,38 @@
+name: Ejecutar Script cada 5 Minutos con Notificación
+
+on:
+  schedule:
+    - cron: '*/5 * * * *' # Ejecutar cada 5 minutos (hora UTC)
+  workflow_dispatch: # Permite ejecutar manualmente
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout del repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Instalar dependencias (si las hay)
+        run: |
+          pip install -r requirements.txt || echo "No hay dependencias"
+
+      - name: Ejecutar el script
+        run: python script.py
+
+      - name: Enviar notificación por correo electrónico
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.EMAIL_USER }}
+          password: ${{ secrets.EMAIL_PASS }}
+          subject: 'GitHub Actions - Ejecución del Script'
+          body: 'El script se ejecutó correctamente en el workflow de GitHub Actions.'
+          to: 'jesus.tendicon@gmail.com'
+          from: 'GitHub Actions <jesus.tendicon@gmail.com>'
