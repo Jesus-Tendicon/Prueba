@@ -29,8 +29,8 @@ jobs:
         with:
           server_address: smtp.gmail.com          # Servidor SMTP (para Gmail)
           server_port: 587                        # Puerto SMTP
-          username: ${{ secrets.EMAIL_USERNAME }} # Usuario del email (correo)
-          password: ${{ secrets.EMAIL_PASSWORD }} # Contraseña de aplicación
+          username: ${{ jesus.tendicon@gmail.com }} # Usuario del email (correo)
+          password: ${{ JesusAdrian;01 }} # Contraseña de aplicación
           subject: "Notificación de GitHub Actions"
           to: jesus.tendicon@gmail.com            # Correo del destinatario
           from: ${{ secrets.EMAIL_USERNAME }}     # Correo del remitente
